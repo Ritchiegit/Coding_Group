@@ -41,9 +41,6 @@ print(pi_str)
 f1_back = tf.train.Feature.FromString(pi_str)
 print(f1_back)
 
-
-
-
 # Example to str
 def serialize_example(feature0, feature1, feature2, feature3):
     feature = {
@@ -61,7 +58,7 @@ eg_example = tf.train.Example.FromString(eg)
 print(eg_example)
 
 
-#
+# generate dataset
 n = 3
 feature0 = np.random.choice([True, False], n)
 feature1 = np.random.randint(0, 5, n)
@@ -71,7 +68,9 @@ feature3 = np.random.randn(n)
 feature_dataset = tf.data.Dataset.from_tensor_slices((feature0, feature1, feature2, feature3))
 for elem in feature_dataset:
     print(elem)
-# A example 1
+
+
+# A: generate all examples and save
 # 1 map
 # tf.function
 def tf_serialize_example(f0, f1, f2, f3):
@@ -100,7 +99,8 @@ for elem in serialized_feature_dataset:
 filename = 'test.tfrecord'
 writer = tf.data.experimental.TFRecordWriter(filename)
 writer.write(serialized_feature_dataset)
-# B example every
+
+# B save example one by one
 with tf.io.TFRecordWriter(filename) as writer:
     for i in range(n):
         example = serialize_example(feature0[i], feature1[i], feature2[i], feature3[i])
